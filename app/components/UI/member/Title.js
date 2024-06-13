@@ -13,7 +13,8 @@ export default Title;
 
 const styles = StyleSheet.create({
   container: {
+    marginBottom: 15,
     paddingBottom: 15,
-    borderBottomWidth: 5,
+    borderBottomWidth: 3,
   },
 });
