@@ -1,5 +1,6 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import Title from "./../UI/member/Title";
+import AuthForm from "./AuthForm";
 
 function AuthContent({ isLogin }) {
   let title = isLogin ? "로그인" : "회원가입";
@@ -7,6 +8,7 @@ function AuthContent({ isLogin }) {
   return (
     <View style={styles.container}>
       <Title>{title}</Title>
+      <AuthForm />
     </View>
   );
 }
@@ -15,8 +17,15 @@ export default AuthContent;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    marginTop: 64,
+    marginHorizontal: 32,
+    padding: 16,
+    borderRadius: 8,
+    elevation: 2,
+    shadowColor: "black",
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.35,
+    shadowRadius: 4,
   },
 });
