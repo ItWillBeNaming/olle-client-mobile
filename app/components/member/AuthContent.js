@@ -1,15 +1,18 @@
 import { StyleSheet, TextInput, View } from "react-native";
 import Title from "./../UI/member/Title";
 import AuthForm from "./AuthForm";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 function AuthContent({ isLogin }) {
   let title = isLogin ? "로그인" : "회원가입";
 
   return (
-    <View style={styles.container}>
-      <Title>{title}</Title>
-      <AuthForm />
-    </View>
+    <KeyboardAwareScrollView>
+      <View style={styles.container}>
+        <Title>{title}</Title>
+        <AuthForm isLogin={isLogin} />
+      </View>
+    </KeyboardAwareScrollView>
   );
 }
 export default AuthContent;
