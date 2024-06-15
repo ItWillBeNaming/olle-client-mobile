@@ -1,6 +1,12 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
-function Input({ keyboardType, placeholder, secure }) {
+function Input({
+  keyboardType,
+  placeholder,
+  secure,
+  textContentType,
+  returnKeyType,
+}) {
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -8,6 +14,8 @@ function Input({ keyboardType, placeholder, secure }) {
         keyboardType={keyboardType}
         placeholder={placeholder}
         secureTextEntry={secure}
+        textContentType={textContentType}
+        returnKeyType={returnKeyType}
       />
     </View>
   );
