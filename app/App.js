@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import LoginScreen from "./screens/member/LoginScreen";
 import SignupScreen from "./screens/member/SignupScreen";
+import Welcome from "./screens/Welcome";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +25,11 @@ function AuthStack() {
 }
 
 function AuthenticatedStack() {
-  return;
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="welcome" component={Welcome} />
+    </Stack.Navigator>
+  );
 }
 
 function Navigation() {
