@@ -14,7 +14,11 @@ import AppLoading from "expo-app-loading";
 import MyPage from "./screens/user/MyPage";
 import IconButton from "./components/UI/IconButton";
 import ManagePost from "./screens/board/ManagePost";
-import Button from "./components/UI/Button";
+import Button from "./components/UI/post/Button";
+import AuthContextProvider, { AuthContext } from "./store/member/Auth-Context";
+import { useContext, useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -91,17 +95,78 @@ function AuthenticatedStack() {
   );
 }
 
+function Root() {
+  const [isTryingLogin, setIsTryigLogin] = useState(true);
+  const authCtx = useContext(AuthContext);
+
+  useEffect(() => {
+    async function fetchToken() {
+      const storedToken = await AsyncStorage.getItem("token");
+
+      if (storedToken) {
+        authCtx.authenticate(storedToken);
+      }
+
+      setIsTryigLogin(false);
+    }
+
+    fetchToken();
+  }, []);
+
+  if (isTryingLogin) {
+    return <AppLoading />;
+  }
+
+  return <Navigation />;
+}
 function Navigation() {
+  async function register() {
+    const url = `http://43.201.194.56/api/v1/board`;
+
+    const response = await axios.post(url, {
+      id: "itsmesunky@gmail.com",
+      password: "Password12!",
+      title: "test",
+      content: "content",
+    });
+
+    console.log(response.data);
+    return response.data;
+  }
   return (
     <NavigationContainer>
-      {/* TO-DO 로그인 여부에 따른 Stack 변경처리 */}
-      <AuthStack />
+      <Stack.Navigator>
+        <Stack.Screen
+          name="BottomTab"
+          component={BottomTab}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ManagePost"
+          component={ManagePost}
+          options={{
+            title: "",
+            headerStyle: {
+              backgroundColor: "white",
+            },
+            headerTitleStyle: {
+              fontFamily: "Pretendard-Medium",
+            },
+            headerTintColor: "black",
+            headerBackTitleVisible: false,
+            headerShadowVisible: false,
+            headerRight: ({ color, size }) => (
+              <Button onPress={register}>등록</Button>
+            ),
+          }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
 export default function App() {
-  const [fontsLoaded, setFontsLoaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     "Pretendard-Light": require("./assets/font/Pretendard-Light.ttf"),
     "Pretendard-Medium": require("./assets/font/Pretendard-Medium.ttf"),
     "Pretendard-Semibold": require("./assets/font/Pretendard-SemiBold.ttf"),
@@ -110,25 +175,9 @@ export default function App() {
     return <AppLoading />;
   }
   return (
-    <>
+    <AuthContextProvider>
       <StatusBar style="dark" />
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="BottomTab"
-            component={BottomTab}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="ManagePost"
-            component={ManagePost}
-            options={{
-              headerBackTitleVisible: false,
-              headerRight: ({ color, size }) => <Button>글쓰기</Button>,
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
+      <Root />
+    </AuthContextProvider>
   );
 }
