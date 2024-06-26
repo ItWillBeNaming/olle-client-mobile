@@ -6,6 +6,8 @@ function Input({
   secure,
   textContentType,
   returnKeyType,
+  onChangeText,
+  value,
 }) {
   return (
     <View style={styles.inputContainer}>
@@ -16,6 +18,8 @@ function Input({
         secureTextEntry={secure}
         textContentType={textContentType}
         returnKeyType={returnKeyType}
+        onChangeText={onChangeText}
+        value={value}
       />
     </View>
   );
