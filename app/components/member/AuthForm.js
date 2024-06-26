@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, TextInput, View } from "react-native";
 import Input from "./Input";
-import Button from "../UI/Button";
+import Button from "../UI/member/Button";
 import SocialLoginButton from "../UI/member/SocialLoginButton";
 import { useNavigation } from "@react-navigation/native";
 import * as yup from "yup";
